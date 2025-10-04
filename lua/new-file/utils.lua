@@ -16,14 +16,36 @@ end
 
 -- core logic once folder is chosen
 function M.create_in_folder(folder)
-  vim.ui.input({ prompt = "Enter file/folder name inside " .. folder .. ": " }, function(input)
-    if not input or input == "" then
-      return
-    end
-    local path = folder .. "/" .. input
-    create_path(path)
-    print("Created: " .. path)
-  end)
+  local input = vim.fn.input("Enter file/folder name inside " .. folder .. ": ")
+  if not input or input == "" then
+    return
+  end
+  local path = folder .. "/" .. input
+  local is_dir = path:sub(-1) == "/"
+  create_path(path)
+  print("Created: " .. path)
+  if not is_dir then
+    vim.cmd('edit ' .. vim.fn.fnameescape(path))
+  end
+end
+
+function M.detect_picker()
+  local ok, _ = pcall(require, "telescope")
+  if ok then
+    return "telescope"
+  end
+
+  local ok2, _ = pcall(require, "fzf-lua")
+  if ok2 then
+    return "fzf"
+  end
+
+  local ok3, _ = pcall(require, "snacks")
+  if ok3 then
+    return "snacks"
+  end
+
+  return nil
 end
 
 return M

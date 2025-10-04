@@ -30,12 +30,19 @@ end
 
 -- snacks adapter (example stub, you’d hook into their picker API)
 function M.snacks_picker()
+  local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
+  local items = vim.tbl_map(function(dir)
+    return { text = dir }
+  end, dirs)
   require("snacks").picker.pick({
     title = "Select folder",
-    items = vim.fn.systemlist("fd --type=d --hidden --exclude .git"),
+    items = items,
+    preview = function()
+      return false
+    end,
     on_select = function(item)
-      Snacks.notify("Been here")
-      utils.create_in_folder(item)
+      Snacks.notify("Selected item")
+      utils.create_in_folder(item.text)
     end,
   })
 end
