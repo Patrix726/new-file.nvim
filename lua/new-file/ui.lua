@@ -1,6 +1,7 @@
 local utils = require("new-file.utils")
 local M = {}
 
+-- TODO: Find a way to add cwd into the list
 -- telescope adapter
 function M.telescope_picker()
   local pickers = require("telescope.pickers")
@@ -28,6 +29,7 @@ function M.telescope_picker()
     :find()
 end
 
+-- TODO: Function probably not functional
 -- snacks adapter (example stub, you’d hook into their picker API)
 function M.snacks_picker()
   local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
@@ -37,9 +39,7 @@ function M.snacks_picker()
   require("snacks").picker.pick({
     title = "Select folder",
     items = items,
-    preview = function()
-      return false
-    end,
+    layout = { preset = "ivy" },
     on_select = function(item)
       Snacks.notify("Selected item")
       utils.create_in_folder(item.text)
@@ -47,6 +47,7 @@ function M.snacks_picker()
   })
 end
 
+-- TODO: Function probably not functional
 -- fzf-lua adapter
 function M.fzf_picker()
   require("fzf-lua").fzf_exec("fd --type=d --hidden --exclude .git", {
@@ -57,6 +58,26 @@ function M.fzf_picker()
       end,
     },
   })
+end
+
+function M.ui_select()
+  local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
+  local items = { { text = "/", value = "." } }
+
+  for _, item in ipairs(dirs) do
+    table.insert(items, { text = item, value = item })
+  end
+
+  vim.ui.select(items, {
+    prompt = "Select folder",
+    format_item = function(item)
+      return item.text
+    end,
+  }, function(item)
+    if item then
+      utils.create_in_folder(item.value)
+    end
+  end)
 end
 
 return M

@@ -2,10 +2,8 @@
 local ui = require("new-file.ui")
 
 ---@class Config
----@field picker string Your config option
-local config = {
-  picker = "telescope",
-}
+---@field picker "telescope" | "snacks" | "fzf-lua" | nil Your picker option
+local config = {}
 
 ---@class MyModule
 local M = {}
@@ -15,14 +13,6 @@ M.config = config
 
 ---@param opts Config?
 function M.setup(opts)
-  if package.loaded["snacks"] then
-    M.config.picker = "snacks"
-  elseif package.loaded["fzf-lua"] then
-    M.config.picker = "fzf"
-  elseif package.loaded["telescope"] then
-    M.config.picker = "telescope"
-  end
-
   M.config = vim.tbl_extend("force", M.config, opts or {})
 end
 
@@ -34,7 +24,7 @@ function M.open()
   elseif M.config.picker == "fzf" then
     ui.fzf_picker()
   else
-    error("Unsupported picker: " .. tostring(M.config.picker))
+    ui.ui_select()
   end
 end
 
