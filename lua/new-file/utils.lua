@@ -16,7 +16,7 @@ end
 
 -- core logic once folder is chosen
 function M.create_in_folder(folder)
-  local input = vim.fn.input("Enter file/folder name inside " .. folder .. ": ")
+  local input = vim.fn.input("Enter pathname inside " .. folder .. ": ")
   if not input or input == "" then
     return
   end
@@ -25,7 +25,7 @@ function M.create_in_folder(folder)
   create_path(path)
   print("Created: " .. path)
   if not is_dir then
-    vim.cmd('edit ' .. vim.fn.fnameescape(path))
+    vim.cmd("edit " .. vim.fn.fnameescape(path))
   end
 end
 

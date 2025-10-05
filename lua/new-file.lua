@@ -2,7 +2,7 @@
 local ui = require("new-file.ui")
 
 ---@class Config
----@field picker "telescope" | "snacks" | "fzf-lua" | nil Your picker option
+---@field picker? "telescope" | "snacks" | "fzf-lua" Your picker option
 local config = {}
 
 ---@class MyModule

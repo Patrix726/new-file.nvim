@@ -1,47 +1,68 @@
-# A Neovim Plugin Template
+# new-file.nvim
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ellisonleao/nvim-plugin-template/lint-test.yml?branch=main&style=for-the-badge)
 ![Lua](https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua)
 
-A template repository for Neovim plugins.
+> **BETA**: This plugin is currently in beta. Please report any issues you encounter.
 
-## Using it
+A Neovim plugin for creating new files and directories with an interactive picker interface.
 
-Via `gh`:
+## Installation
 
+### lazy.nvim
+
+```lua
+{
+  "patrix726/new-file.nvim",
+  opts = {},
+}
 ```
-$ gh repo create my-plugin -p ellisonleao/nvim-plugin-template
+
+### packer.nvim
+
+```lua
+use {
+  "patrix726/new-file.nvim",
+  config = function()
+    require("new-file").setup()
+  end,
+}
 ```
 
-Via github web page:
+## Usage
 
-Click on `Use this template`
+Call `:lua require("new-file").open()` to open the folder picker. Select a directory, then enter the pathname for the new file or directory you want to create.
 
-![](https://docs.github.com/assets/cb-36544/images/help/repository/use-this-template-button.png)
+## Configuration
 
-## Features and structure
-
-- 100% Lua
-- Github actions for:
-  - running tests using [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) and [busted](https://olivinelabs.com/busted/)
-  - check for formatting errors (Stylua)
-  - vimdocs autogeneration from README.md file
-  - luarocks release (LUAROCKS_API_KEY secret configuration required)
-
-### Plugin structure
-
+```lua
+require("new-file").setup({
+  picker = "telescope", -- "telescope" | "snacks" | "fzf" | nil (uses vim.ui.select)
+})
 ```
-.
-├── lua
-│   ├── plugin_name
-│   │   └── module.lua
-│   └── plugin_name.lua
-├── Makefile
-├── plugin
-│   └── plugin_name.lua
-├── README.md
-├── tests
-│   ├── minimal_init.lua
-│   └── plugin_name
-│       └── plugin_name_spec.lua
-```
+
+### Supported Pickers
+
+- **telescope**: Uses Telescope for folder selection
+- **snacks**: Uses Snacks picker
+- **fzf**: Uses fzf-lua
+- **vim.ui.select** (default): Uses Neovim's built-in UI select
+
+The plugin automatically detects available pickers if none is specified.
+
+## Features
+
+- Interactive folder selection using your preferred picker
+- Create files and directories
+- Automatic file opening after creation
+- Support for multiple picker backends
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please ensure your code follows the existing style and includes tests for new functionality.
