@@ -2,8 +2,12 @@
 local ui = require("new-file.ui")
 
 ---@class Config
----@field picker? "telescope" | "snacks" | "fzf-lua" Your picker option
-local config = {}
+---@field picker? "telescope" | "snacks" | nil Your picker option
+---@field picker_opts? table
+local config = {
+  picker = nil,
+  picker_opts = {},
+}
 
 ---@class MyModule
 local M = {}
@@ -21,8 +25,6 @@ function M.open()
     ui.telescope_picker()
   elseif M.config.picker == "snacks" then
     ui.snacks_picker()
-  elseif M.config.picker == "fzf" then
-    ui.fzf_picker()
   else
     ui.ui_select()
   end

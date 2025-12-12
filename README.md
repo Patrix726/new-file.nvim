@@ -37,7 +37,7 @@ Call `:lua require("new-file").open()` to open the folder picker. Select a direc
 
 ```lua
 require("new-file").setup({
-  picker = "telescope", -- "telescope" | "snacks" | "fzf" | nil (uses vim.ui.select)
+  picker = "telescope", -- "telescope" | "snacks" | nil (uses vim.ui.select)
 })
 ```
 
@@ -45,7 +45,6 @@ require("new-file").setup({
 
 - **telescope**: Uses Telescope for folder selection
 - **snacks**: Uses Snacks picker
-- **fzf**: Uses fzf-lua
 - **vim.ui.select** (default): Uses Neovim's built-in UI select
 
 The plugin automatically detects available pickers if none is specified.

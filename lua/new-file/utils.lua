@@ -35,13 +35,8 @@ function M.detect_picker()
     return "telescope"
   end
 
-  local ok2, _ = pcall(require, "fzf-lua")
+  local ok2, _ = pcall(require, "snacks")
   if ok2 then
-    return "fzf"
-  end
-
-  local ok3, _ = pcall(require, "snacks")
-  if ok3 then
     return "snacks"
   end
 

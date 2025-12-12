@@ -1,9 +1,10 @@
 local utils = require("new-file.utils")
 local M = {}
 
--- TODO: Find a way to add cwd into the list
--- telescope adapter
+-- Use telescope for selecting folder
 function M.telescope_picker()
+  -- TODO: Find a way to add cwd into the list
+  -- telescope adapter
   local pickers = require("telescope.pickers")
   local finders = require("telescope.finders")
   local conf = require("telescope.config").values
@@ -29,37 +30,33 @@ function M.telescope_picker()
     :find()
 end
 
--- TODO: Function probably not functional
--- snacks adapter (example stub, you’d hook into their picker API)
+-- Use snacks_picker for selecting folder
 function M.snacks_picker()
+  -- TODO: Add a way to configure the snacks layout
   local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
-  local items = vim.tbl_map(function(dir)
-    return { text = dir }
-  end, dirs)
+  local items = { { text = "/", value = "." } }
+
+  for _, item in ipairs(dirs) do
+    table.insert(items, { text = item, value = item })
+  end
+
   require("snacks").picker.pick({
     title = "Select folder",
+    format = "text",
+    -- layout = "select",
     items = items,
-    layout = { preset = "ivy" },
-    on_select = function(item)
-      Snacks.notify("Selected item")
-      utils.create_in_folder(item.text)
+    layout = { preset = "vscode", hidden = { "preview" } },
+    confirm = function(picker, item)
+      picker:close()
+      if item then
+        vim.notify("Selected " .. item.text)
+        utils.create_in_folder(item.value)
+      end
     end,
   })
 end
 
--- TODO: Function probably not functional
--- fzf-lua adapter
-function M.fzf_picker()
-  require("fzf-lua").fzf_exec("fd --type=d --hidden --exclude .git", {
-    prompt = "Select folder> ",
-    actions = {
-      ["default"] = function(selected)
-        utils.create_in_folder(selected[1])
-      end,
-    },
-  })
-end
-
+-- Use builtin ui-select for selecting folder
 function M.ui_select()
   local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
   local items = { { text = "/", value = "." } }
