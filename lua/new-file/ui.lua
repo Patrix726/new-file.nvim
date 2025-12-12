@@ -3,18 +3,23 @@ local M = {}
 
 -- Use telescope for selecting folder
 function M.telescope_picker()
-  -- TODO: Find a way to add cwd into the list
-  -- telescope adapter
   local pickers = require("telescope.pickers")
   local finders = require("telescope.finders")
   local conf = require("telescope.config").values
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
 
+  local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
+  local items = { "./" }
+
+  for _, item in ipairs(dirs) do
+    table.insert(items, item)
+  end
+
   pickers
     .new({}, {
       prompt_title = "Select folder",
-      finder = finders.new_oneshot_job({ "fd", "--type=d", "--hidden", "--exclude", ".git" }, {}),
+      finder = finders.new_table(items),
       sorter = conf.generic_sorter({}),
       attach_mappings = function(_, map)
         local function select()
