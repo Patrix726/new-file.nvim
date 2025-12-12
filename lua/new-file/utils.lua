@@ -20,6 +20,7 @@ function M.create_in_folder(folder)
   if not input or input == "" then
     return
   end
+  folder = folder:gsub("/+$", "")
   local path = folder .. "/" .. input
   local is_dir = path:sub(-1) == "/"
   create_path(path)
@@ -27,6 +28,10 @@ function M.create_in_folder(folder)
   if not is_dir then
     vim.cmd("edit " .. vim.fn.fnameescape(path))
   end
+end
+
+function M.get_directories()
+  return vim.fn.systemlist("fd --type=d --hidden --exclude .git")
 end
 
 function M.detect_picker()

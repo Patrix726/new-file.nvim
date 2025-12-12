@@ -9,7 +9,7 @@ function M.telescope_picker()
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
 
-  local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
+  local dirs = utils.get_directories()
   local items = { "./" }
 
   for _, item in ipairs(dirs) do
@@ -38,7 +38,7 @@ end
 -- Use snacks_picker for selecting folder
 function M.snacks_picker()
   -- TODO: Add a way to configure the snacks layout
-  local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
+  local dirs = utils.get_directories()
   local items = { { text = "/", value = "." } }
 
   for _, item in ipairs(dirs) do
@@ -63,7 +63,7 @@ end
 
 -- Use builtin ui-select for selecting folder
 function M.ui_select()
-  local dirs = vim.fn.systemlist("fd --type=d --hidden --exclude .git")
+  local dirs = utils.get_directories()
   local items = { { text = "/", value = "." } }
 
   for _, item in ipairs(dirs) do
