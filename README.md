@@ -15,6 +15,16 @@ A Neovim plugin for creating new files and directories with an interactive picke
 {
   "patrix726/new-file.nvim",
   opts = {},
+  keys = {
+    {
+      '<leader>cp',
+      function()
+        require('new-file').open()
+      end,
+      mode = 'n',
+      { desc = '[C]reate new file/folder/[P]ath in selected directory' },
+    },
+  },
 }
 ```
 
@@ -24,10 +34,17 @@ A Neovim plugin for creating new files and directories with an interactive picke
 use {
   "patrix726/new-file.nvim",
   config = function()
-    require("new-file").setup()
+    require("new-file").setup({})
+    vim.keymap.set('n', '<leader>cp', function()
+      require('new-file').open()
+    end, { desc = '[C]reate new file/folder/[P]ath in selected directory' })
   end,
 }
 ```
+
+## Prerequisites
+
+- [fd](https://github.com/sharkdp/fd) - A simple, fast and user-friendly alternative to find
 
 ## Usage
 
@@ -37,7 +54,7 @@ Call `:lua require("new-file").open()` to open the folder picker. Select a direc
 
 ```lua
 require("new-file").setup({
-  picker = "telescope", -- "telescope" | "snacks" | nil (uses vim.ui.select)
+  picker = "telescope", -- "telescope" | "snacks" | nil (default | uses vim.ui.select)
 })
 ```
 
