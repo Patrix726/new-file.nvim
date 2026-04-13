@@ -11,6 +11,8 @@ A Neovim plugin for creating new files and directories with an interactive picke
 
 This plugin is inspired by [vscode-advanced-new-file](https://github.com/patbenatar/vscode-advanced-new-file), a similar plugin developed for VSCode.
 
+![Preview](https://imgur.com/eSCW8ag.gif)
+
 ## Installation
 
 ### lazy.nvim
