@@ -11,7 +11,8 @@ A Neovim plugin for creating new files and directories with an interactive picke
 
 This plugin is inspired by [vscode-advanced-new-file](https://github.com/patbenatar/vscode-advanced-new-file), a similar plugin developed for VSCode.
 
-![Preview](https://imgur.com/eSCW8ag.gif)
+![Preview](https://github.com/user-attachments/assets/88e390aa-db63-4076-a029-0b6f5f76b63b)
+
 
 ## Installation
 
